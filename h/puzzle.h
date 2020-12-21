@@ -23,6 +23,9 @@ class State
           /*Constructors*/
     State();
     State(int x, int y, int puzzle[][WIDTH]);
+    void setFree(int i, int j);//Sets free the specified tile
+    int getFreeY();//Returns the current Y position of the free tile
+    int getFreeX();//Returns the current x position of the free tile
 
     private:
 
