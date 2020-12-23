@@ -18,27 +18,30 @@ int main()
    {4, 5, 6} ,   /*  initializers for row indexed by 1 */
    {7, 8, 0}   /*  initializers for row indexed by 2 */
     };
-
+/*
     int Freei , Freey;
-    for(int i = 0 ; i < 9 ; i++)
+    for(int i = 0 ; i < 3 ; i++)
     {
-        for(int j = 0 ; j<9 ; j++)
+        
+        for(int j = 0 ; j<3 ; j++)
         {
             if (startingBoard[i][j] == 0)
             {
                 Freei = i;
                 Freey = j;
-                return Freei , Freey;
+                
             }
             else
             {
                 std::cout<<"The puzzle is wrong ! there was no free space given as 0"<<std::endl;
             }
         }
+        return Freei , Freey;
     }
-
-    State initial(Freei,Freey,startingBoard);//Creates the starting state
+*/
+    State initial(0 ,1,startingBoard);//Creates the starting state
     State goal(2,2,goalBoard);//Sets a goal
+    
 
 
 

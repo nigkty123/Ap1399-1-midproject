@@ -30,7 +30,7 @@ class State
     int getFreeX();//Returns the current x position of the free tile
     State operator= (State o);//to copy the State object
     bool operator==(const State& o) const ;// to check if the two objects are equal
-    void BFS(int s); 
+    
     
     private:
 
