@@ -8,6 +8,7 @@
 #include <set>
 #include <sstream>
 #include <cstdlib> //For abs()
+#include <list>
 #define WIDTH 3
 #define HEIGHT 3
 
@@ -18,7 +19,8 @@ class State
     int freeX, freeY;//free cell position
     int puzzle[WIDTH][HEIGHT];// The numbers of each cell
     vector <string> path; // path taken
-
+    std::list<int> *adj; 
+    int V;
     public:
           /*Constructors*/
     State();
@@ -26,7 +28,10 @@ class State
     void setFree(int i, int j);//Sets free the specified tile
     int getFreeY();//Returns the current Y position of the free tile
     int getFreeX();//Returns the current x position of the free tile
-
+    State operator= (State o);//to copy the State object
+    bool operator==(const State& o) const ;// to check if the two objects are equal
+    void BFS(int s); 
+    
     private:
 
     void swapTileValues(int row, int col, State &n);//Changes the value of the previous free tile
