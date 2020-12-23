@@ -61,6 +61,7 @@ int State::getFreeX()
     return freeX;
 }
 
+
 void State::swapTileValues(int row, int col, State &n)
 {
     n.puzzle[n.getFreeX()][n.getFreeY()] = n.puzzle[row][col];

@@ -3,6 +3,9 @@
 #include <algorithm>
 
 
+int findFreeX(int puzzle[WIDTH][HEIGHT]);
+int findFreeY(int puzzle[WIDTH][HEIGHT]);
+
 int main()
 {
 
@@ -18,32 +21,43 @@ int main()
    {4, 5, 6} ,   /*  initializers for row indexed by 1 */
    {7, 8, 0}   /*  initializers for row indexed by 2 */
     };
-/*
-    int Freei , Freey;
-    for(int i = 0 ; i < 3 ; i++)
-    {
-        
-        for(int j = 0 ; j<3 ; j++)
-        {
-            if (startingBoard[i][j] == 0)
-            {
-                Freei = i;
-                Freey = j;
-                
-            }
-            else
-            {
-                std::cout<<"The puzzle is wrong ! there was no free space given as 0"<<std::endl;
-            }
-        }
-        return Freei , Freey;
-    }
-*/
-    State initial(0 ,1,startingBoard);//Creates the starting state
+
+    State initial(findFreeX(startingBoard),findFreeY(startingBoard),startingBoard);//Creates the starting state
     State goal(2,2,goalBoard);//Sets a goal
     
 
 
-
     return 0;
+}
+
+int findFreeX(int puzzle[WIDTH][HEIGHT])
+{
+    int freeX = 2 ;
+    for(int i = 0 ; i < WIDTH ; i++)
+    {
+        for(int j = 0 ; j<HEIGHT ; j++)
+        {
+            if (puzzle[i][j] == 0)
+            {
+                freeX = i;
+            }
+        }
+    }
+    return freeX ;
+}
+
+int findFreeY(int puzzle[WIDTH][HEIGHT])
+{
+    int freeY = 2 ;
+    for(int i = 0 ; i < WIDTH ; i++)
+    {
+        for(int j = 0 ; j<HEIGHT ; j++)
+        {
+            if (puzzle[i][j] == 0)
+            {
+                freeY = j;
+            }
+        }
+    }
+    return  freeY;
 }
