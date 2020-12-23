@@ -118,3 +118,55 @@ bool State::moveFreeRight(State &n)
     return false;
 }
 
+std::string State::toString () const
+{
+    std::stringstream ot;
+
+    for (int i = 0; i < WIDTH; i++)
+    {
+        ot << "\n";
+        for (int j = 0; j < HEIGHT; j++)
+            if (puzzle[i][j] != 0)
+                ot<<puzzle[i][j]<< "  ";
+            else
+                ot<<" "<< "  ";
+
+    }
+
+    return ot.str();
+}
+
+std::string State::getPath()
+{
+    unsigned i;
+    std::string s;
+    if (path.size()>0)
+    {
+        for (i=0;i<path.size()-1;i++)
+            s+=path.at(i)+", ";
+        s+=path.at(i)+ "\n";
+    }
+    return s;
+}
+
+std::vector <State> State::expand()
+{
+    std::vector <State> children;
+    State child;
+
+    if (moveFreeUp(child))
+        children.push_back(child);
+    if (moveFreeLeft(child))
+        children.push_back(child);
+    if (moveFreeDown(child))
+        children.push_back(child);
+    if (moveFreeRight(child))
+        children.push_back(child);
+
+    return children;
+}
+
+bool operator< (const State& a, const State& o)
+{
+    return (a.toString() < o.toString());
+}

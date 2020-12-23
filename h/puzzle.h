@@ -26,9 +26,10 @@ class State
     int getFreeX();//Returns the current x position of the free tile
     State operator= (State o);//to copy the State object
     bool operator==(const State& o) const ;// to check if the two objects are equal
-    
-    
-    
+    std::string toString () const;// to return as a String the current State
+    std::vector <State> expand();//Expanding the States and returns it's children
+    std::string getPath();//Returns path that the free tile has moved so far
+    friend bool operator< (const State& a,const State& o);//return true if State a is smaller
     private:
 
     void swapTileValues(int row, int col, State &n);//Changes the value of the previous free tile
