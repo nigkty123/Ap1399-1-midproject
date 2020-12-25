@@ -37,7 +37,34 @@ bool BFS(const myState &goal,std::queue<myState> &agenda, std::set<myState> &clo
     return false;
 }
 
+template <typename myState>
+bool DFS(const myState &g,std::stack<myState> &a, std::set<myState> &c,myState &sol)
+{
+    myState s;
+    while (!(a.empty()))
+    {
+        s=a.top();
+        a.pop();
 
+        if (s==g)
+        {
+            sol = s;
+            return true;
+        }
+
+        if (c.size()==0 || (c.find(s)==c.end()))
+
+        {
+            std::vector<myState> children;
+            children=s.expand();
+            closed.insert(s);
+            for (int i=0;i<children.size();i++)
+                a.push(children.at(i));
+        }
+    }
+
+    return false;
+}
 
 
 int main()
@@ -67,7 +94,7 @@ int main()
     Qagenda.push(initial);
     
 
-    std::cout<<"Starting State: \n"<<initial.toString()<<"\n"<<"\nGoal State: \n"<<goal.toString()<<std::endl;//Prints the starting to final state
+    std::cout<<"Starting State(BFS): \n"<<initial.toString()<<"\n"<<"\nGoal State: \n"<<goal.toString()<<std::endl;//Prints the starting to final state
 
     State solution;
 
@@ -75,7 +102,17 @@ int main()
 
     std::cout<<"BFS Solution: "<<std::endl;
     std::cout<<solution.getPath()<<std::endl;;
+    
+    std::stack <State> a;
+    std::set <State> c;
+    a.push(initial);
+    std::cout<<"Starting State(DFS): \n"<<initial.toString()<<"\n"<<"\nGoal State: \n"<<goal.toString()<<std::endl;//Prints the starting to final state
+    
+    State solution;
+    DFS(goal,a,c,solution);
 
+    std::cout<<"DFS Solution: "<<std::endl;
+    std::cout<<solution.getPath()<<std::endl;;
 
 
     return 0;
