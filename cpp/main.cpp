@@ -1,7 +1,7 @@
 #include <iostream>
 #include "puzzle.h"
 #include <algorithm>
-
+#include <fstream>
 
 
 int findFreeX(int puzzle[WIDTH][HEIGHT]);
@@ -38,7 +38,7 @@ bool BFS(const myState &goal,std::queue<myState> &agenda, std::set<myState> &clo
 }
 
 template <typename myState>
-bool DFS(const myState &goal,stack<myState> &agenda, set<myState> &closed,myState &solution)
+bool DFS(const myState &goal,std::stack<myState> &agenda, std::set<myState> &closed,myState &solution)
 {
     myState s;
     while (!(agenda.empty()))

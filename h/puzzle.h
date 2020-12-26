@@ -14,6 +14,12 @@
 
 class State
 {
+    friend std::istream& operator>>(std::istream& s,const State& other )
+    {
+        std::cout<<"operator <<"<<std::endl;
+        s >> other.puzzle[WIDTH][HEIGHT] <<std::endl;
+        return s; 
+    }
     int freeX, freeY;//free cell position
     int puzzle[WIDTH][HEIGHT];// The numbers of each cell
     std::vector <std::string> path; // path taken
