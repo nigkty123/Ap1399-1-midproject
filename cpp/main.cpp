@@ -38,28 +38,28 @@ bool BFS(const myState &goal,std::queue<myState> &agenda, std::set<myState> &clo
 }
 
 template <typename myState>
-bool DFS(const myState &g,std::stack<myState> &a, std::set<myState> &c,myState &sol)
+bool DFS(const myState &goal,stack<myState> &agenda, set<myState> &closed,myState &solution)
 {
     myState s;
-    while (!(a.empty()))
+    while (!(agenda.empty()))
     {
-        s=a.top();
-        a.pop();
+        s=agenda.top();
+        agenda.pop();
 
-        if (s==g)
+        if (s==goal)
         {
-            sol = s;
+            solution = s;
             return true;
         }
 
-        if (c.size()==0 || (c.find(s)==c.end()))
+        if (closed.size()==0 || (closed.find(s)==closed.end()))
 
         {
-            std::vector<myState> children;
+            vector<myState> children;
             children=s.expand();
             closed.insert(s);
-            for (int i=0;i<children.size();i++)
-                a.push(children.at(i));
+            for (unsigned int i=0;i<children.size();i++)
+                agenda.push(children.at(i));
         }
     }
 
@@ -69,13 +69,22 @@ bool DFS(const myState &g,std::stack<myState> &a, std::set<myState> &c,myState &
 
 int main()
 {
+    int startingBoard[3][3] ;
+    std::cout<< "Enter your puzzle:"<<std::endl;
+    std::cin>> startingBoard;
 
-    int startingBoard[3][3] = 
-    {
-   {6, 7, 1} ,   /*  initializers for row indexed by 0 */
-   {0, 3, 2} ,   /*  initializers for row indexed by 1 */
-   {8, 5, 4}   /*  initializers for row indexed by 2 */
-    };
+    
+
+    //int startingBoard[3][3] = 
+   // {
+   //{6, 7, 1} ,   /*  initializers for row indexed by 0 */
+  // {0, 3, 2} ,   /*  initializers for row indexed by 1 */
+   //{8, 5, 4}   /*  initializers for row indexed by 2 */
+    //};
+
+
+
+
     int goalBoard[3][3] = 
     {
    {1, 2, 3} ,   /*  initializers for row indexed by 0 */
@@ -87,10 +96,11 @@ int main()
     State goal(2,2,goalBoard);//Sets a goal
     
     std::queue <State> Qagenda;
-    
+    std::stack <State> agenda;;
     std::set <State> Qclosed;
-    
+    std::set <State> closed;
 
+    agenda.push(initial);
     Qagenda.push(initial);
     
 
@@ -103,13 +113,12 @@ int main()
     std::cout<<"BFS Solution: "<<std::endl;
     std::cout<<solution.getPath()<<std::endl;;
     
-    std::stack <State> a;
-    std::set <State> c;
-    a.push(initial);
+   
+    
     std::cout<<"Starting State(DFS): \n"<<initial.toString()<<"\n"<<"\nGoal State: \n"<<goal.toString()<<std::endl;//Prints the starting to final state
     
-    State solution;
-    DFS(goal,a,c,solution);
+    
+    DFS(goal,agenda,closed,solution);
 
     std::cout<<"DFS Solution: "<<std::endl;
     std::cout<<solution.getPath()<<std::endl;;
