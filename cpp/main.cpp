@@ -55,7 +55,7 @@ bool DFS(const myState &goal,std::stack<myState> &agenda, std::set<myState> &clo
         if (closed.size()==0 || (closed.find(s)==closed.end()))
 
         {
-            vector<myState> children;
+            std::vector<myState> children;
             children=s.expand();
             closed.insert(s);
             for (unsigned int i=0;i<children.size();i++)
@@ -69,12 +69,30 @@ bool DFS(const myState &goal,std::stack<myState> &agenda, std::set<myState> &clo
 
 int main()
 {
+    std::vector<int>startingboard;
     int startingBoard[3][3] ;
     std::cout<< "Enter your puzzle:"<<std::endl;
-    std::cin>> startingBoard;
+    
+    for(int i = 0 ; i<3 ; i++)
+    {
+        std::cin>>startingboard[i] ;
+    }
+    
+    for(int n = 0 ; n<9 ; n++)
+    {
+        for(int j = 0 ; j<3 ; j++)
+        {
+            for(int i = 0 ; i<3 ; i++)
+            {
+                startingBoard[i][j] = startingboard[n];
+            }
+        }
+    }
+    
 
     
 
+    
     //int startingBoard[3][3] = 
    // {
    //{6, 7, 1} ,   /*  initializers for row indexed by 0 */
