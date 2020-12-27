@@ -226,23 +226,23 @@ int main()
     std::vector<int>startingboard;
     int startingBoard[3][3] ;
     int command;
-    std::cout<< "Choose one of the following:"<<std::endl;
-    std::cout<< "to solve a random puzzle enter: '1'"<<std::endl;
-    std::cout<< "to solve your own puzzle enter: '2'"<<std::endl;
+    std::cout<< print_as_color<ansi_color_code::bright_blue>("Choose one of the following:")<<std::endl;
+    std::cout<< print_as_color<ansi_color_code::bright_blue>("to solve a random puzzle enter: '1'")<<std::endl;
+    std::cout<< print_as_color<ansi_color_code::bright_blue>("to solve your own puzzle enter: '2'")<<std::endl;
     std::cin>>command;
     
     if(command==1)
     {
         Random_Board(startingBoard);
-        isSolvable(startingBoard)? std::cout << "Solvable"<<std::endl: 
-                      std::cout << "Not Solvable"<<std::endl; 
+        isSolvable(startingBoard)? std::cout << print_as_color<ansi_color_code::green>("Solvable")<<std::endl: 
+                      std::cout << print_as_color<ansi_color_code::red>("Not Solvable")<<std::endl;  
 
     }
     else 
     {
         get_user_input(startingBoard);
-        isSolvable(startingBoard)? std::cout << "Solvable"<<std::endl: 
-                      std::cout << "Not Solvable"<<std::endl; 
+        isSolvable(startingBoard)? std::cout << print_as_color<ansi_color_code::green>("Solvable")<<std::endl: 
+                      std::cout << print_as_color<ansi_color_code::red>("Not Solvable")<<std::endl; 
     }
 
 
@@ -279,22 +279,22 @@ int main()
     Qagenda.push(initial);
     
 
-    std::cout<<"Starting State(BFS): \n"<<initial.toString()<<"\n"<<"\nGoal State: \n"<<goal.toString()<<std::endl;//Prints the starting to final state
+    std::cout<<print_as_color<ansi_color_code::bright_green>("Starting State(BFS): \n")<<print_as_color<ansi_color_code::cyan>(initial.toString())<<"\n"<<print_as_color<ansi_color_code::bright_green>("\nGoal State: \n")<<print_as_color<ansi_color_code::cyan>(goal.toString())<<std::endl;//Prints the starting to final state
 
     State solution;
 
     BFS(goal,Qagenda,Qclosed,solution);
 
-    std::cout<<"BFS Solution: "<<std::endl;
+    std::cout<<print_as_color<ansi_color_code::magenta>("BFS Solution: ")<<std::endl;
     std::cout<<print_as_color<ansi_color_code::blue>(solution.getPath())<<std::endl;
-    std::cout<<"number of moves:"<<print_as_color<ansi_color_code::blue>(solution.no_OfMoves())<<std::endl;
+    std::cout<<print_as_color<ansi_color_code::yellow>("number of moves:")<<print_as_color<ansi_color_code::blue>(solution.no_OfMoves())<<std::endl;
     
     
     DFS(goal,agenda,closed,solution);
 
-    std::cout<<"DFS Solution: "<<std::endl;
-    std::cout<<solution.getPath()<<std::endl;
-    std::cout<<"number of moves:"<<solution.no_OfMoves()<<std::endl;
+    std::cout<<print_as_color<ansi_color_code::magenta>("DFS Solution: ")<<std::endl;
+    std::cout<<print_as_color<ansi_color_code::blue>(solution.getPath())<<std::endl;
+    std::cout<<print_as_color<ansi_color_code::yellow>("number of moves:")<<print_as_color<ansi_color_code::blue>(solution.no_OfMoves())<<std::endl;
 
 
     return 0;

@@ -32,7 +32,7 @@ class State
     std::string getPath();//Returns path that the free tile has moved so far
     friend bool operator< (const State& a,const State& o);//return true if State a is smaller
     int no_OfMoves() const {return noOfMoves;}
-    int noOfMoves;//counts number of moves
+    int noOfMoves{};//counts number of moves
     private:
 
     void swapTileValues(int row, int col, State &n);//Changes the value of the previous free tile
