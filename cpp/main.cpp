@@ -106,6 +106,26 @@ void get_user_input(int puzzle[WIDTH][HEIGHT])
     }
 }
 
+int getInvCount(int arr[]) 
+{ 
+    int inv_count = 0; 
+    for (int i = 0; i < 9 - 1; i++) 
+        for (int j = i+1; j < 9; j++) 
+             // Value 0 is used for empty space 
+             if (arr[j] && arr[i] &&  arr[i] > arr[j]) 
+                  inv_count++; 
+    return inv_count; 
+}
+
+bool isSolvable(int puzzle[3][3]) 
+{ 
+    // Count inversions in given 8 puzzle 
+    int invCount = getInvCount((int *)puzzle); 
+  
+    // return true if inversion count is even. 
+    return (invCount%2 == 0); 
+} 
+
 template <typename myState>
 bool BFS(const myState &goal,std::queue<myState> &agenda, std::set<myState> &closed,myState &solution)
 {
@@ -180,11 +200,15 @@ int main()
     if(command==1)
     {
         Random_Board(startingBoard);
+        isSolvable(startingBoard)? std::cout << "Solvable": 
+                      std::cout << "Not Solvable"; 
 
     }
     else 
     {
         get_user_input(startingBoard);
+        isSolvable(startingBoard)? std::cout << "Solvable": 
+                      std::cout << "Not Solvable"; 
     }
 
 
