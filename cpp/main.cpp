@@ -200,15 +200,15 @@ int main()
     if(command==1)
     {
         Random_Board(startingBoard);
-        isSolvable(startingBoard)? std::cout << "Solvable": 
-                      std::cout << "Not Solvable"; 
+        isSolvable(startingBoard)? std::cout << "Solvable"<<std::endl: 
+                      std::cout << "Not Solvable"<<std::endl; 
 
     }
     else 
     {
         get_user_input(startingBoard);
-        isSolvable(startingBoard)? std::cout << "Solvable": 
-                      std::cout << "Not Solvable"; 
+        isSolvable(startingBoard)? std::cout << "Solvable"<<std::endl: 
+                      std::cout << "Not Solvable"<<std::endl; 
     }
 
 
