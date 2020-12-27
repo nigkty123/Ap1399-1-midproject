@@ -1,7 +1,10 @@
 #include <iostream>
 #include "puzzle.h"
 #include <algorithm>
-#include <random>
+#include <ctime>
+#include <cstdlib>
+#include <iomanip>
+#include <string>
 
 
 int findFreeX(int puzzle[WIDTH][HEIGHT])
@@ -37,29 +40,26 @@ int findFreeY(int puzzle[WIDTH][HEIGHT])
 }
 void initialize_Board(int puzzle[WIDTH][HEIGHT])
 {
-    int a = 0;
-    int temp = 0;
+    unsigned int a = 0;
+    unsigned int temp = 0;
     int random_roll = 0;
     int random_column = 0;
-    for(int i = 0; i < WIDTH; i++)
-    {
-        for (int j = 0; j < HEIGHT; j++)
-        {
-            puzzle[i][j] = a;
-            a++;
-        }
-    }
 
     for(int i = 0; i < WIDTH; i++)
     {
         for (int j = 0; j < HEIGHT; j++)
         {
-            random_roll = rand() % 5;
-            random_column = rand() % 5;
-            temp = puzzle[i][j];
-            puzzle[i][j] = puzzle[random_roll][random_column];
-            puzzle[random_roll][random_column] = temp;
-        }
+            random_roll = rand() % 9;
+            
+            if(puzzle[i][j] ==  random_roll)
+            {
+                break;
+            }
+            else
+            {
+                puzzle[i][j] = random_roll;
+            }
+        }   
     }
 }
 
@@ -160,8 +160,8 @@ int main()
     //std::cout<< "Enter your puzzle:"<<std::endl;
     
     
-    //initialize_Board(startingBoard);
-    get_user_input(startingBoard);
+    initialize_Board(startingBoard);
+    //get_user_input(startingBoard);
     
     /*
     
@@ -207,8 +207,8 @@ int main()
     BFS(goal,Qagenda,Qclosed,solution);
 
     std::cout<<"BFS Solution: "<<std::endl;
-    std::cout<<solution.getPath()<<std::endl;;
-    
+    std::cout<<solution.getPath()<<std::endl;
+    std::cout<<"number of moves:"<<solution.no_OfMoves()<<std::endl;
    
     
     std::cout<<"Starting State(DFS): \n"<<initial.toString()<<"\n"<<"\nGoal State: \n"<<goal.toString()<<std::endl;//Prints the starting to final state
@@ -217,7 +217,8 @@ int main()
     DFS(goal,agenda,closed,solution);
 
     std::cout<<"DFS Solution: "<<std::endl;
-    std::cout<<solution.getPath()<<std::endl;;
+    std::cout<<solution.getPath()<<std::endl;
+    std::cout<<"number of moves:"<<solution.no_OfMoves()<<std::endl;
 
 
     return 0;

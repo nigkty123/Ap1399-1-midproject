@@ -31,6 +31,8 @@ class State
     std::vector <State> expand();//Expanding the States and returns it's children
     std::string getPath();//Returns path that the free tile has moved so far
     friend bool operator< (const State& a,const State& o);//return true if State a is smaller
+    int no_OfMoves() const {return noOfMoves;}
+    int noOfMoves;//counts number of moves
     private:
 
     void swapTileValues(int row, int col, State &n);//Changes the value of the previous free tile
@@ -38,6 +40,7 @@ class State
     bool moveFreeDown(State &n);//Goes up if the tile below the current is free
     bool moveFreeLeft(State &n);//Goes left if the tile left to the current is free
     bool moveFreeRight(State &n);//Goes right if the tile right to the current is free
+    
 };
 
 #endif // PUZZLE_H

@@ -76,6 +76,7 @@ bool State::moveFreeUp(State &n)
         swapTileValues(n.getFreeX()-1, n.getFreeY(), n);
         n.setFree(n.getFreeX()-1, n.getFreeY());
         n.path.push_back("U"); // U for up
+        noOfMoves++;
         return true;
     }
     return false;
@@ -89,6 +90,7 @@ bool State::moveFreeDown(State &n)
         swapTileValues(n.getFreeX()+1, n.getFreeY(), n);
         n.setFree(n.getFreeX()+1, n.getFreeY());
         n.path.push_back("D"); //D for down
+        noOfMoves++;
         return true;
     }
     return false;
@@ -101,6 +103,7 @@ bool State::moveFreeLeft(State &n)
         swapTileValues(n.getFreeX(), n.getFreeY()-1, n);
         n.setFree(n.getFreeX(), n.getFreeY()-1);
         n.path.push_back("L");  // L for Left
+        noOfMoves++;
         return true;
     }
     return false;
@@ -113,6 +116,7 @@ bool State::moveFreeRight(State &n)
         swapTileValues(n.getFreeX(), n.getFreeY()+1, n);
         n.setFree(n.getFreeX(), n.getFreeY()+1);
         n.path.push_back("R"); //R for right
+        noOfMoves++;
         return true;
     }
     return false;
