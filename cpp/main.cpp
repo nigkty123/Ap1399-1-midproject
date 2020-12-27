@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <iomanip>
 #include <string>
+#include <vector>
 
 
 int findFreeX(int puzzle[WIDTH][HEIGHT])
@@ -40,25 +41,22 @@ int findFreeY(int puzzle[WIDTH][HEIGHT])
 }
 void initialize_Board(int puzzle[WIDTH][HEIGHT])
 {
-    unsigned int a = 0;
-    unsigned int temp = 0;
+    std::vector<int>::iterator temp;
     int random_roll = 0;
-    int random_column = 0;
+    std::vector<int> tiles;
+
 
     for(int i = 0; i < WIDTH; i++)
     {
         for (int j = 0; j < HEIGHT; j++)
         {
             random_roll = rand() % 9;
-            
-            if(puzzle[i][j] ==  random_roll)
-            {
-                break;
-            }
-            else
+            temp = std::find(tiles.begin() , tiles.end() , random_roll);
+            if(temp ==  tiles.end())
             {
                 puzzle[i][j] = random_roll;
-            }
+                tiles.push_back(random_roll);
+            }           
         }   
     }
 }
