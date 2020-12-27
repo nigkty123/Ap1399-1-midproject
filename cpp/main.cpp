@@ -1,12 +1,95 @@
 #include <iostream>
 #include "puzzle.h"
 #include <algorithm>
-#include <fstream>
+#include <random>
 
 
-int findFreeX(int puzzle[WIDTH][HEIGHT]);
-int findFreeY(int puzzle[WIDTH][HEIGHT]);
+int findFreeX(int puzzle[WIDTH][HEIGHT])
+{
+    int freeX;
+    for(int i = 0 ; i < WIDTH ; i++)
+    {
+        for(int j = 0 ; j<HEIGHT ; j++)
+        {
+            if (puzzle[i][j] == 0)
+            {
+                freeX = i;
+            }
+        }
+    }
+    return freeX ;
+}
 
+int findFreeY(int puzzle[WIDTH][HEIGHT])
+{
+    int freeY;
+    for(int i = 0 ; i < WIDTH ; i++)
+    {
+        for(int j = 0 ; j<HEIGHT ; j++)
+        {
+            if (puzzle[i][j] == 0)
+            {
+                freeY = j;
+            }
+        }
+    }
+    return  freeY;
+}
+void initialize_Board(int puzzle[WIDTH][HEIGHT])
+{
+    int a = 0;
+    int temp = 0;
+    int random_roll = 0;
+    int random_column = 0;
+    for(int i = 0; i < WIDTH; i++)
+    {
+        for (int j = 0; j < HEIGHT; j++)
+        {
+            puzzle[i][j] = a;
+            a++;
+        }
+    }
+
+    for(int i = 0; i < WIDTH; i++)
+    {
+        for (int j = 0; j < HEIGHT; j++)
+        {
+            random_roll = rand() % 5;
+            random_column = rand() % 5;
+            temp = puzzle[i][j];
+            puzzle[i][j] = puzzle[random_roll][random_column];
+            puzzle[random_roll][random_column] = temp;
+        }
+    }
+}
+
+void get_user_input(int puzzle[WIDTH][HEIGHT])
+{
+    std::vector<int> input;
+    int tile;
+    std::cout << "Enter your puzzle: "<<std::endl;
+    unsigned int i = 0;
+    while( i != 9)
+    {
+        std::cout<<"tile["<<i<<"]:"<<std::endl;
+        std::cin>>tile;
+        input.push_back(tile);
+        i++;
+    }
+    unsigned int n = 0;
+    while( n != 9)
+    {
+        for(unsigned int i = 0 ; i<3 ; i++)
+        {
+            for(unsigned int j = 0 ; j<3 ; j++)
+            {
+                puzzle[i][j] = input[n];
+                n++;
+            }
+        }
+        
+    }
+}
 
 template <typename myState>
 bool BFS(const myState &goal,std::queue<myState> &agenda, std::set<myState> &closed,myState &solution)
@@ -67,40 +150,35 @@ bool DFS(const myState &goal,std::stack<myState> &agenda, std::set<myState> &clo
 }
 
 
+
+
 int main()
 {
     std::vector<int>startingboard;
     int startingBoard[3][3] ;
-    std::cout<< "Enter your puzzle:"<<std::endl;
     
-    for(int i = 0 ; i<3 ; i++)
+    //std::cout<< "Enter your puzzle:"<<std::endl;
+    
+    
+    //initialize_Board(startingBoard);
+    get_user_input(startingBoard);
+    
+    /*
+    
+
+    
+    int startingBoard[3][3] = 
     {
-        std::cin>>startingboard[i] ;
-    }
-    
-    for(int n = 0 ; n<9 ; n++)
-    {
-        for(int j = 0 ; j<3 ; j++)
-        {
-            for(int i = 0 ; i<3 ; i++)
-            {
-                startingBoard[i][j] = startingboard[n];
-            }
-        }
-    }
-    
+    {6, 7, 1} ,   //  initializers for row indexed by 0 
+    {0, 3, 2} ,   //  initializers for row indexed by 1 
+    {8, 5, 4}   //  initializers for row indexed by 2 
+    };
+    */    
+
+    //std::cout<<findFreeX(startingBoard)<<std::endl;
+    //std::cout<<findFreeY(startingBoard)<<std::endl;
 
     
-
-    
-    //int startingBoard[3][3] = 
-   // {
-   //{6, 7, 1} ,   /*  initializers for row indexed by 0 */
-  // {0, 3, 2} ,   /*  initializers for row indexed by 1 */
-   //{8, 5, 4}   /*  initializers for row indexed by 2 */
-    //};
-
-
 
 
     int goalBoard[3][3] = 
@@ -145,34 +223,5 @@ int main()
     return 0;
 }
 
-int findFreeX(int puzzle[WIDTH][HEIGHT])
-{
-    int freeX = 2 ;
-    for(int i = 0 ; i < WIDTH ; i++)
-    {
-        for(int j = 0 ; j<HEIGHT ; j++)
-        {
-            if (puzzle[i][j] == 0)
-            {
-                freeX = i;
-            }
-        }
-    }
-    return freeX ;
-}
 
-int findFreeY(int puzzle[WIDTH][HEIGHT])
-{
-    int freeY = 2 ;
-    for(int i = 0 ; i < WIDTH ; i++)
-    {
-        for(int j = 0 ; j<HEIGHT ; j++)
-        {
-            if (puzzle[i][j] == 0)
-            {
-                freeY = j;
-            }
-        }
-    }
-    return  freeY;
-}
+
