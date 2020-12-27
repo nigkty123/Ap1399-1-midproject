@@ -6,6 +6,9 @@
 #include <iomanip>
 #include <string>
 #include <vector>
+#include <unordered_set>
+#include <stdlib.h>     /* srand, rand */
+#include <time.h>
 
 
 int findFreeX(int puzzle[WIDTH][HEIGHT])
@@ -39,25 +42,39 @@ int findFreeY(int puzzle[WIDTH][HEIGHT])
     }
     return  freeY;
 }
-void initialize_Board(int puzzle[WIDTH][HEIGHT])
+void Random_Board(int puzzle[WIDTH][HEIGHT])
 {
     std::vector<int>::iterator temp;
-    int random_roll = 0;
-    std::vector<int> tiles;
+    unsigned int random_roll = 0;
+    std::unordered_set<int> tiles;
+    std::vector<int> randoms;
+    std::vector<int> finish;
+    srand(time(0)) ;
 
-
-    for(int i = 0; i < WIDTH; i++)
+    while(tiles.size() != 9)
     {
-        for (int j = 0; j < HEIGHT; j++)
+        random_roll = rand() % 9;
+        randoms.push_back(random_roll);
+        tiles.insert(randoms.begin(), randoms.end());
+    }
+
+
+    for (const int& x: tiles)
+    {
+        finish.push_back(x);
+    }
+    int n = 0;
+    while(n != 9)
+    {
+        for(int i = 0; i < WIDTH; i++)
         {
-            random_roll = rand() % 9;
-            temp = std::find(tiles.begin() , tiles.end() , random_roll);
-            if(temp ==  tiles.end())
+            for (int j = 0; j < HEIGHT; j++)
             {
-                puzzle[i][j] = random_roll;
-                tiles.push_back(random_roll);
-            }           
-        }   
+                tiles.insert(random_roll);
+                puzzle[i][j] = finish[n];    
+                n++;    
+            }   
+        }
     }
 }
 
@@ -154,36 +171,42 @@ int main()
 {
     std::vector<int>startingboard;
     int startingBoard[3][3] ;
+    int command;
+    std::cout<< "Choose one of the following:"<<std::endl;
+    std::cout<< "to solve a random puzzle enter: '1'"<<std::endl;
+    std::cout<< "to solve your own puzzle enter: '2'"<<std::endl;
+    std::cin>>command;
     
-    //std::cout<< "Enter your puzzle:"<<std::endl;
-    
-    
-    initialize_Board(startingBoard);
-    //get_user_input(startingBoard);
-    
-    /*
-    
-
-    
-    int startingBoard[3][3] = 
+    if(command==1)
     {
-    {6, 7, 1} ,   //  initializers for row indexed by 0 
-    {0, 3, 2} ,   //  initializers for row indexed by 1 
-    {8, 5, 4}   //  initializers for row indexed by 2 
-    };
-    */    
+        Random_Board(startingBoard);
+
+    }
+    else 
+    {
+        get_user_input(startingBoard);
+    }
+
 
     //std::cout<<findFreeX(startingBoard)<<std::endl;
     //std::cout<<findFreeY(startingBoard)<<std::endl;
 
+        /*
+            int startingBoard[3][3]= 
+        {
+        {6, 7, 1} ,   //  initializers for row indexed by 0 
+        {0, 3, 2} ,   //  initializers for row indexed by 1 
+        {8, 5, 4}   //  initializers for row indexed by 2 
+        };
+        */
     
 
 
     int goalBoard[3][3] = 
     {
-   {1, 2, 3} ,   /*  initializers for row indexed by 0 */
-   {4, 5, 6} ,   /*  initializers for row indexed by 1 */
-   {7, 8, 0}   /*  initializers for row indexed by 2 */
+    {1, 2, 3} ,   /*  initializers for row indexed by 0 */
+    {4, 5, 6} ,   /*  initializers for row indexed by 1 */
+    {7, 8, 0}   /*  initializers for row indexed by 2 */
     };
 
     State initial(findFreeX(startingBoard),findFreeY(startingBoard),startingBoard);//Creates the starting state
@@ -207,9 +230,6 @@ int main()
     std::cout<<"BFS Solution: "<<std::endl;
     std::cout<<solution.getPath()<<std::endl;
     std::cout<<"number of moves:"<<solution.no_OfMoves()<<std::endl;
-   
-    
-    std::cout<<"Starting State(DFS): \n"<<initial.toString()<<"\n"<<"\nGoal State: \n"<<goal.toString()<<std::endl;//Prints the starting to final state
     
     
     DFS(goal,agenda,closed,solution);
