@@ -9,41 +9,7 @@
 #include <unordered_set>
 #include <stdlib.h>     /* srand, rand */
 #include <time.h>
-#include <thread>
-#include <chrono>
-#include <sstream>
-
-enum class ansi_color_code: int{
-    black = 30,
-    red=31,
-    green=32,
-    yellow=33,
-    blue=34,
-    magenta=35,
-    cyan=36,
-    white=37,
-    bright_black = 90,
-    bright_red=91,
-    bright_green=92,
-    bright_yellow=93,
-    bright_blue=94,
-    bright_magenta=95,
-    bright_cyan=96,
-    bright_white=97,
-};
-
-template<typename printable>
-std::string print_as_color(printable const& value, ansi_color_code color){
-    std::stringstream sstr;
-    sstr<<"\033[1;"<<static_cast<int>(color)<<"m"<<value<<"\033[0m";
-    return sstr.str();
-}
-template<ansi_color_code color,typename printable>
-std::string print_as_color(printable const& value){
-    std::stringstream sstr;
-    sstr<<"\033[1;"<<static_cast<int>(color)<<"m"<<value<<"\033[0m";
-    return sstr.str();
-}
+#include "color.h"
 
 int findFreeX(int puzzle[WIDTH][HEIGHT])
 {
@@ -245,20 +211,8 @@ int main()
                       std::cout << print_as_color<ansi_color_code::red>("Not Solvable")<<std::endl; 
     }
 
-
-    //std::cout<<findFreeX(startingBoard)<<std::endl;
-    //std::cout<<findFreeY(startingBoard)<<std::endl;
-
-        /*
-            int startingBoard[3][3]= 
-        {
-        {6, 7, 1} ,   //  initializers for row indexed by 0 
-        {0, 3, 2} ,   //  initializers for row indexed by 1 
-        {8, 5, 4}   //  initializers for row indexed by 2 
-        };
-        */
     
-
+ 
 
     int goalBoard[3][3] = 
     {
@@ -279,22 +233,31 @@ int main()
     Qagenda.push(initial);
     
 
-    std::cout<<print_as_color<ansi_color_code::bright_green>("Starting State(BFS): \n")<<print_as_color<ansi_color_code::cyan>(initial.toString())<<"\n"<<print_as_color<ansi_color_code::bright_green>("\nGoal State: \n")<<print_as_color<ansi_color_code::cyan>(goal.toString())<<std::endl;//Prints the starting to final state
+    std::cout<<print_as_color<ansi_color_code::bright_green>("Starting State: \n")<<print_as_color<ansi_color_code::cyan>(initial.toString())<<"\n"<<print_as_color<ansi_color_code::bright_green>("\nGoal State: \n")<<print_as_color<ansi_color_code::cyan>(goal.toString())<<std::endl;//Prints the starting to final state
+    
+    if(isSolvable(startingBoard)==true)
+    {
+    State solutionB;
+    State solutionD;
 
-    State solution;
-
-    BFS(goal,Qagenda,Qclosed,solution);
+    BFS(goal,Qagenda,Qclosed,solutionB);
 
     std::cout<<print_as_color<ansi_color_code::magenta>("BFS Solution: ")<<std::endl;
-    std::cout<<print_as_color<ansi_color_code::blue>(solution.getPath())<<std::endl;
-    std::cout<<print_as_color<ansi_color_code::yellow>("number of moves:")<<print_as_color<ansi_color_code::blue>(solution.no_OfMoves())<<std::endl;
+    std::cout<<print_as_color<ansi_color_code::blue>(solutionB.getPath())<<std::endl;
+    std::cout<<print_as_color<ansi_color_code::yellow>("number of moves:")<<print_as_color<ansi_color_code::blue>(solutionB.no_OfMoves())<<std::endl;
     
     
-    DFS(goal,agenda,closed,solution);
+    DFS(goal,agenda,closed,solutionD);
 
     std::cout<<print_as_color<ansi_color_code::magenta>("DFS Solution: ")<<std::endl;
-    std::cout<<print_as_color<ansi_color_code::blue>(solution.getPath())<<std::endl;
-    std::cout<<print_as_color<ansi_color_code::yellow>("number of moves:")<<print_as_color<ansi_color_code::blue>(solution.no_OfMoves())<<std::endl;
+    std::cout<<print_as_color<ansi_color_code::blue>(solutionD.getPath())<<std::endl;
+    std::cout<<print_as_color<ansi_color_code::yellow>("number of moves:")<<print_as_color<ansi_color_code::blue>(closed.size())<<std::endl;
+    }
+    else
+    {
+        std::cout<<print_as_color<ansi_color_code::red>("Sorry i can't solve this :(")<<std::endl;
+    }
+    
 
 
     return 0;

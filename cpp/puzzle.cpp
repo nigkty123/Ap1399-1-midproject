@@ -18,6 +18,11 @@ State::State(int row, int col, int puzzle[][WIDTH])
             this->puzzle[i][j]=puzzle[i][j];
 }
 
+int State::no_OfMoves() 
+{
+    return noOfMoves;
+}
+
 State State::operator= (State o)
 {
     freeX = o.freeX;
@@ -76,7 +81,6 @@ bool State::moveFreeUp(State &n)
         swapTileValues(n.getFreeX()-1, n.getFreeY(), n);
         n.setFree(n.getFreeX()-1, n.getFreeY());
         n.path.push_back("U"); // U for up
-        noOfMoves++;
         return true;
     }
     return false;
@@ -90,7 +94,6 @@ bool State::moveFreeDown(State &n)
         swapTileValues(n.getFreeX()+1, n.getFreeY(), n);
         n.setFree(n.getFreeX()+1, n.getFreeY());
         n.path.push_back("D"); //D for down
-        noOfMoves++;
         return true;
     }
     return false;
@@ -103,7 +106,6 @@ bool State::moveFreeLeft(State &n)
         swapTileValues(n.getFreeX(), n.getFreeY()-1, n);
         n.setFree(n.getFreeX(), n.getFreeY()-1);
         n.path.push_back("L");  // L for Left
-        noOfMoves++;
         return true;
     }
     return false;
@@ -116,7 +118,6 @@ bool State::moveFreeRight(State &n)
         swapTileValues(n.getFreeX(), n.getFreeY()+1, n);
         n.setFree(n.getFreeX(), n.getFreeY()+1);
         n.path.push_back("R"); //R for right
-        noOfMoves++;
         return true;
     }
     return false;
@@ -159,13 +160,25 @@ std::vector <State> State::expand()
     State child;
 
     if (moveFreeUp(child))
+    {
         children.push_back(child);
+        noOfMoves++;
+    } 
     if (moveFreeLeft(child))
+    {
         children.push_back(child);
+        noOfMoves++;
+    }
     if (moveFreeDown(child))
+    {
         children.push_back(child);
+        noOfMoves++;
+    }
     if (moveFreeRight(child))
+    {
         children.push_back(child);
+        noOfMoves++;
+    }
 
     return children;
 }
