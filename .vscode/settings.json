@@ -48,6 +48,10 @@
         "numeric": "cpp",
         "random": "cpp",
         "ctime": "cpp",
-        "iomanip": "cpp"
+        "iomanip": "cpp",
+        "chrono": "cpp",
+        "unordered_set": "cpp",
+        "ratio": "cpp",
+        "thread": "cpp"
     }
 }

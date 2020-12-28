@@ -42,6 +42,7 @@ int findFreeY(int puzzle[WIDTH][HEIGHT])
     }
     return  freeY;
 }
+
 void Random_Board(int puzzle[WIDTH][HEIGHT])
 {
     std::vector<int>::iterator temp;
@@ -191,20 +192,23 @@ int main()
 {
     std::vector<int>startingboard;
     int startingBoard[3][3] ;
-    int command;
+    int command1;
+    //int command2;
+    //int goalX;
+    //int goalY;
     std::cout<< print_as_color<ansi_color_code::bright_blue>("Choose one of the following:")<<std::endl;
     std::cout<< print_as_color<ansi_color_code::bright_blue>("to solve a random puzzle enter: '1'")<<std::endl;
     std::cout<< print_as_color<ansi_color_code::bright_blue>("to solve your own puzzle enter: '2'")<<std::endl;
-    std::cin>>command;
+    std::cin>>command1;
     
-    if(command==1)
+    if(command1==1)
     {
         Random_Board(startingBoard);
         isSolvable(startingBoard)? std::cout << print_as_color<ansi_color_code::green>("Solvable")<<std::endl: 
                       std::cout << print_as_color<ansi_color_code::red>("Not Solvable")<<std::endl;  
 
     }
-    else 
+    else
     {
         get_user_input(startingBoard);
         isSolvable(startingBoard)? std::cout << print_as_color<ansi_color_code::green>("Solvable")<<std::endl: 
@@ -212,17 +216,27 @@ int main()
     }
 
     
- 
-
+    
     int goalBoard[3][3] = 
     {
     {1, 2, 3} ,   /*  initializers for row indexed by 0 */
     {4, 5, 6} ,   /*  initializers for row indexed by 1 */
     {7, 8, 0}   /*  initializers for row indexed by 2 */
     };
+    
+    
 
     State initial(findFreeX(startingBoard),findFreeY(startingBoard),startingBoard);//Creates the starting state
+
+    //std::cout<< print_as_color<ansi_color_code::bright_blue>("to choose your own goal enter: '1'")<<std::endl;
+    //std::cout<< print_as_color<ansi_color_code::bright_blue>("to solve the puzzle completely enter: '2'")<<std::endl;
+    //std::cin>>command2;
+
+    //State goal ;
+
+
     State goal(2,2,goalBoard);//Sets a goal
+ 
     
     std::queue <State> Qagenda;
     std::stack <State> agenda;;
@@ -237,29 +251,33 @@ int main()
     
     if(isSolvable(startingBoard)==true)
     {
-    State solutionB;
-    State solutionD;
+    State solution;
+    
 
-    BFS(goal,Qagenda,Qclosed,solutionB);
+    BFS(goal,Qagenda,Qclosed,solution);
 
     std::cout<<print_as_color<ansi_color_code::magenta>("BFS Solution: ")<<std::endl;
-    std::cout<<print_as_color<ansi_color_code::blue>(solutionB.getPath())<<std::endl;
-    std::cout<<print_as_color<ansi_color_code::yellow>("number of moves:")<<print_as_color<ansi_color_code::blue>(solutionB.no_OfMoves())<<std::endl;
+    std::cout<<print_as_color<ansi_color_code::blue>(solution.getPath())<<std::endl;
+    std::cout<<print_as_color<ansi_color_code::yellow>("number of moves:")<<print_as_color<ansi_color_code::blue>(solution.noOfMoves())<<std::endl;
     
-    
+    State solutionD;
+
     DFS(goal,agenda,closed,solutionD);
 
     std::cout<<print_as_color<ansi_color_code::magenta>("DFS Solution: ")<<std::endl;
     std::cout<<print_as_color<ansi_color_code::blue>(solutionD.getPath())<<std::endl;
-    std::cout<<print_as_color<ansi_color_code::yellow>("number of moves:")<<print_as_color<ansi_color_code::blue>(closed.size())<<std::endl;
+    std::cout<<print_as_color<ansi_color_code::yellow>("number of moves:")<<print_as_color<ansi_color_code::blue>(solutionD.noOfMoves())<<std::endl;
+    if(solutionD.noOfMoves()==0)
+    {
+        std::cout<<print_as_color<ansi_color_code::red>("DFS can't solve this puzzle")<<std::endl;
+    }
+
     }
     else
     {
         std::cout<<print_as_color<ansi_color_code::red>("Sorry i can't solve this :(")<<std::endl;
     }
     
-
-
     return 0;
 }
 

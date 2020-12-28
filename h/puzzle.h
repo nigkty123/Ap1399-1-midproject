@@ -31,10 +31,10 @@ class State
     std::vector <State> expand();//Expanding the States and returns it's children
     std::string getPath();//Returns path that the free tile has moved so far
     friend bool operator< (const State& a,const State& o);//return true if State a is smaller
-    int no_OfMoves()  ;
+    size_t noOfMoves() const ;
     
     private:
-    int noOfMoves{};//counts number of moves
+    
     void swapTileValues(int row, int col, State &n);//Changes the value of the previous free tile
     bool moveFreeUp(State &n);//Goes up if the tile above the current is free
     bool moveFreeDown(State &n);//Goes up if the tile below the current is free

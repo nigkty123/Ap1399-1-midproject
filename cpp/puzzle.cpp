@@ -18,9 +18,9 @@ State::State(int row, int col, int puzzle[][WIDTH])
             this->puzzle[i][j]=puzzle[i][j];
 }
 
-int State::no_OfMoves() 
+size_t State::noOfMoves() const
 {
-    return noOfMoves;
+    return path.size();
 }
 
 State State::operator= (State o)
@@ -158,28 +158,14 @@ std::vector <State> State::expand()
 {
     std::vector <State> children;
     State child;
-
     if (moveFreeUp(child))
-    {
         children.push_back(child);
-        noOfMoves++;
-    } 
     if (moveFreeLeft(child))
-    {
         children.push_back(child);
-        noOfMoves++;
-    }
     if (moveFreeDown(child))
-    {
         children.push_back(child);
-        noOfMoves++;
-    }
     if (moveFreeRight(child))
-    {
         children.push_back(child);
-        noOfMoves++;
-    }
-
     return children;
 }
 
