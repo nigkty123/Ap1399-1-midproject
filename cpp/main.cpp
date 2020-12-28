@@ -130,7 +130,7 @@ template <typename myState>
 bool BFS(const myState &goal,std::queue<myState> &agenda, std::set<myState> &closed,myState &solution)
 {
     myState s;
-    while (!(agenda.empty()))
+    while (!(agenda.empty()) )
     {
         s=agenda.front();
         agenda.pop();
@@ -159,7 +159,7 @@ template <typename myState>
 bool DFS(const myState &goal,std::stack<myState> &agenda, std::set<myState> &closed,myState &solution)
 {
     myState s;
-    while (!(agenda.empty()))
+    while (!(agenda.empty()) && (agenda.size()<7000))
     {
         s=agenda.top();
         agenda.pop();
