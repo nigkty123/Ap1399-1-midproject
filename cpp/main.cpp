@@ -234,16 +234,21 @@ int main()
     
 
     State initial(freeX,freeY,startingBoard);//Creates the starting state
-
-    //std::cout<< print_as_color<ansi_color_code::bright_blue>("to choose your own goal enter: '1'")<<std::endl;
-    //std::cout<< print_as_color<ansi_color_code::bright_blue>("to solve the puzzle completely enter: '2'")<<std::endl;
-    //std::cin>>command2;
-
-    //State goal ;
-
-
     State goal(2,2,goalBoard);//Sets a goal
- 
+
+    //std::cout<< print_as_color<ansi_color_code::bright_blue>("to choose your own goal enter: 'yes'")<<std::endl;
+    //std::cout<< print_as_color<ansi_color_code::bright_blue>("to solve the puzzle completely enter: 'no'")<<std::endl;
+    //std::cin>>command;
+
+    //if(command==1)
+    //{
+        //get_user_input(goalBoard);
+        //goalX =findFreeX(goalBoard);
+        //goalY = findFreeY(goalBoard);
+        //State goal(goalX,goalY,goalBoard) ;
+
+    //}
+    
     
     std::queue <State> Qagenda;
     std::stack <State> agenda;;
