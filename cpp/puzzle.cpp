@@ -1,6 +1,7 @@
 
 #include "puzzle.h"
-#include<iostream>
+#include <iostream>
+#include <color.h>
 
 
 State::State()
@@ -172,4 +173,39 @@ std::vector <State> State::expand()
 bool operator< (const State& a, const State& o)
 {
     return (a.toString() < o.toString());
+}
+
+void State::Show(int x, int y, int puzzle[][WIDTH])
+{
+    std::string s;
+    State child(x,y,puzzle);
+    for( size_t i=0 ; i< path.size(); i++)
+    {
+        
+        
+        if( path.at(i) == "R" )
+        {
+            child.moveFreeRight(child);
+            std::cout<<print_as_color<ansi_color_code::bright_cyan>(i+1)<<print_as_color<ansi_color_code::bright_cyan>("-Move to Right:")<<std::endl<<print_as_color<ansi_color_code::blue>(child.toString())<<std::endl;
+        }
+
+        if( path.at(i) == "L" )
+        {
+            child.moveFreeLeft(child);
+            std::cout<<print_as_color<ansi_color_code::bright_cyan>(i+1)<<print_as_color<ansi_color_code::bright_cyan>("-Move to Left:")<<std::endl<<print_as_color<ansi_color_code::blue>(child.toString())<<std::endl;
+        }
+
+        if( path.at(i) == "U" )
+        {
+            child.moveFreeUp(child);
+            std::cout<<print_as_color<ansi_color_code::bright_cyan>(i+1)<<print_as_color<ansi_color_code::bright_cyan>("-Move to Up:")<<std::endl<<print_as_color<ansi_color_code::blue>(child.toString())<<std::endl;
+        }
+
+        if( path.at(i) == "D" )
+        {
+            child.moveFreeDown(child);
+            std::cout<<print_as_color<ansi_color_code::bright_cyan>(i+1)<<print_as_color<ansi_color_code::bright_cyan>("-Move to Down:")<<std::endl<<print_as_color<ansi_color_code::blue>(child.toString())<<std::endl;
+        }
+        
+    }
 }

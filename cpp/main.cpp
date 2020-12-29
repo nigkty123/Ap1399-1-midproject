@@ -2,6 +2,9 @@
 #include "puzzle.h"
 #include <algorithm>
 #include <ctime>
+#include <set>
+#include <stack>
+#include <queue>
 #include <cstdlib>
 #include <iomanip>
 #include <string>
@@ -143,7 +146,6 @@ bool BFS(const myState &goal,std::queue<myState> &agenda, std::set<myState> &clo
         }
 
         if (closed.size()==0 || (closed.find(s)==closed.end()))// if closed set is empty or set does NOT contain s,
-
         {
             std::vector<myState> children;
             children=s.expand();
@@ -151,16 +153,17 @@ bool BFS(const myState &goal,std::queue<myState> &agenda, std::set<myState> &clo
             for (unsigned int i=0;i<children.size();i++)
                 agenda.push(children.at(i));
         }
+        
     }
 
     return false;
 }
 
 template <typename myState>
-bool DFS(const myState &goal,std::stack<myState> &agenda, std::set<myState> &closed,myState &solution)
+bool DFS(const myState &goal,std::stack<myState> &agenda, std::set<myState> &closed,myState &solution , size_t depth)
 {
     myState s;
-    while (!(agenda.empty()) && (agenda.size()<7000))
+    while (!(agenda.empty()) && (agenda.size()<depth))
     {
         s=agenda.top();
         agenda.pop();
@@ -192,16 +195,18 @@ int main()
 {
     std::vector<int>startingboard;
     int startingBoard[3][3] ;
-    int command1;
-    //int command2;
+    int command;
     //int goalX;
     //int goalY;
+    int freeX;
+    int freeY;
+
     std::cout<< print_as_color<ansi_color_code::bright_blue>("Choose one of the following:")<<std::endl;
     std::cout<< print_as_color<ansi_color_code::bright_blue>("to solve a random puzzle enter: '1'")<<std::endl;
     std::cout<< print_as_color<ansi_color_code::bright_blue>("to solve your own puzzle enter: '2'")<<std::endl;
-    std::cin>>command1;
+    std::cin>>command;
     
-    if(command1==1)
+    if(command==1)
     {
         Random_Board(startingBoard);
         isSolvable(startingBoard)? std::cout << print_as_color<ansi_color_code::green>("Solvable")<<std::endl: 
@@ -224,9 +229,11 @@ int main()
     {7, 8, 0}   /*  initializers for row indexed by 2 */
     };
     
+    freeX =findFreeX(startingBoard);
+    freeY = findFreeY(startingBoard);
     
 
-    State initial(findFreeX(startingBoard),findFreeY(startingBoard),startingBoard);//Creates the starting state
+    State initial(freeX,freeY,startingBoard);//Creates the starting state
 
     //std::cout<< print_as_color<ansi_color_code::bright_blue>("to choose your own goal enter: '1'")<<std::endl;
     //std::cout<< print_as_color<ansi_color_code::bright_blue>("to solve the puzzle completely enter: '2'")<<std::endl;
@@ -251,28 +258,66 @@ int main()
     
     if(isSolvable(startingBoard)==true)
     {
-    State solution;
-    
+        std::cout<<print_as_color<ansi_color_code::bright_blue>("which alghorithm should i solve this puzzle with?(BFS = 1 , DFS = 2 , Both = 3)")<<std::endl;
+        std::cin>> command;
 
-    BFS(goal,Qagenda,Qclosed,solution);
+        if(command == 1 || command == 3)
+        {
+            State solution;
+        
+            BFS(goal,Qagenda,Qclosed,solution);
 
-    std::cout<<print_as_color<ansi_color_code::magenta>("BFS Solution: ")<<std::endl;
-    std::cout<<print_as_color<ansi_color_code::blue>(solution.getPath())<<std::endl;
-    std::cout<<print_as_color<ansi_color_code::yellow>("number of moves:")<<print_as_color<ansi_color_code::blue>(solution.noOfMoves())<<std::endl;
-    
-    State solutionD;
+            std::cout<<print_as_color<ansi_color_code::magenta>("BFS Solution: ")<<std::endl;
+            std::cout<<print_as_color<ansi_color_code::blue>(solution.getPath())<<std::endl;
 
-    DFS(goal,agenda,closed,solutionD);
+            //dfs number of moves
+            std::cout<<print_as_color<ansi_color_code::yellow>("number of moves:")<<print_as_color<ansi_color_code::blue>(solution.noOfMoves())<<std::endl;
+            
+            //bfs step by step solution
+            solution.Show(freeX , freeY ,startingBoard);
+        
 
-    std::cout<<print_as_color<ansi_color_code::magenta>("DFS Solution: ")<<std::endl;
-    std::cout<<print_as_color<ansi_color_code::blue>(solutionD.getPath())<<std::endl;
-    std::cout<<print_as_color<ansi_color_code::yellow>("number of moves:")<<print_as_color<ansi_color_code::blue>(solutionD.noOfMoves())<<std::endl;
-    if(solutionD.noOfMoves()==0)
-    {
-        std::cout<<print_as_color<ansi_color_code::red>("DFS can't solve this puzzle")<<std::endl;
+        }
+
+        if(command == 2 || command == 3)
+        {
+            size_t depth = 7000;
+            std::cout<<print_as_color<ansi_color_code::bright_blue>("would you like to enter a depth?if so please enter 1")<<std::endl;
+            std::cin>>command;
+            if(command == 1)
+            {
+                std::cout<<print_as_color<ansi_color_code::bright_blue>("please enter a number less than 7000")<<std::endl;
+                std::cin>>depth;
+            }
+            
+
+            State solutionD;
+
+            DFS(goal,agenda,closed,solutionD,depth);
+
+            std::cout<<print_as_color<ansi_color_code::magenta>("DFS Solution: ")<<std::endl;
+            std::cout<<print_as_color<ansi_color_code::blue>(solutionD.getPath())<<std::endl;
+
+
+            //dfs number of moves
+            std::cout<<print_as_color<ansi_color_code::yellow>("number of moves:")<<print_as_color<ansi_color_code::blue>(solutionD.noOfMoves())<<std::endl;
+            if(solutionD.noOfMoves()==0)
+            {
+                std::cout<<print_as_color<ansi_color_code::red>("DFS can't solve this puzzle")<<std::endl;
+            }
+
+            /// dfs step by step solution
+            if(solutionD.noOfMoves()!=0)
+            {
+                std::cout<< print_as_color<ansi_color_code::bright_blue>("to see the step by step solution for DFS enter: '1'")<<std::endl;
+                std::cin>> command ;
+                if(command == 1)
+                    solutionD.Show(freeX , freeY ,startingBoard);
+            }
+        }
     }
 
-    }
+        
     else
     {
         std::cout<<print_as_color<ansi_color_code::red>("Sorry i can't solve this :(")<<std::endl;
