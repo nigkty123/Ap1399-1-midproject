@@ -90,7 +90,7 @@ void get_user_input(int puzzle[WIDTH][HEIGHT])
     unsigned int i = 0;
     while( i != 9)
     {
-        std::cout<<"tile["<<i<<"]:"<<std::endl;
+        std::cout<<print_as_color<ansi_color_code::blue>("tile[")<<print_as_color<ansi_color_code::bright_white>(i)<<print_as_color<ansi_color_code::bright_blue>("]:")<<std::endl;
         std::cin>>tile;
         input.push_back(tile);
         i++;
