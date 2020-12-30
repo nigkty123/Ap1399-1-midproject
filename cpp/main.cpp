@@ -14,12 +14,12 @@
 #include <time.h>
 #include "color.h"
 
-int findFreeX(int puzzle[WIDTH][HEIGHT])
+size_t findFreeX(size_t puzzle[WIDTH][HEIGHT])
 {
-    int freeX;
-    for(int i = 0 ; i < WIDTH ; i++)
+    size_t freeX;
+    for(size_t i = 0 ; i < WIDTH ; i++)
     {
-        for(int j = 0 ; j<HEIGHT ; j++)
+        for(size_t j = 0 ; j<HEIGHT ; j++)
         {
             if (puzzle[i][j] == 0)
             {
@@ -30,12 +30,12 @@ int findFreeX(int puzzle[WIDTH][HEIGHT])
     return freeX ;
 }
 
-int findFreeY(int puzzle[WIDTH][HEIGHT])
+size_t findFreeY(size_t puzzle[WIDTH][HEIGHT])
 {
-    int freeY;
-    for(int i = 0 ; i < WIDTH ; i++)
+    size_t freeY;
+    for(size_t i = 0 ; i < WIDTH ; i++)
     {
-        for(int j = 0 ; j<HEIGHT ; j++)
+        for(size_t j = 0 ; j<HEIGHT ; j++)
         {
             if (puzzle[i][j] == 0)
             {
@@ -46,13 +46,13 @@ int findFreeY(int puzzle[WIDTH][HEIGHT])
     return  freeY;
 }
 
-void Random_Board(int puzzle[WIDTH][HEIGHT])
+void Random_Board(size_t puzzle[WIDTH][HEIGHT])
 {
-    std::vector<int>::iterator temp;
-    unsigned int random_roll = 0;
-    std::unordered_set<int> tiles;
-    std::vector<int> randoms;
-    std::vector<int> finish;
+    std::vector<size_t>::iterator temp;
+    size_t random_roll = 0;
+    std::unordered_set<size_t> tiles;
+    std::vector<size_t> randoms;
+    std::vector<size_t> finish;
     srand(time(0)) ;
 
     while(tiles.size() != 9)
@@ -63,16 +63,16 @@ void Random_Board(int puzzle[WIDTH][HEIGHT])
     }
 
 
-    for (const int& x: tiles)
+    for (const size_t& x: tiles)
     {
         finish.push_back(x);
     }
-    int n = 0;
+    size_t n = 0;
     while(n != 9)
     {
-        for(int i = 0; i < WIDTH; i++)
+        for(size_t i = 0; i < WIDTH; i++)
         {
-            for (int j = 0; j < HEIGHT; j++)
+            for (size_t j = 0; j < HEIGHT; j++)
             {
                 tiles.insert(random_roll);
                 puzzle[i][j] = finish[n];    
@@ -82,12 +82,12 @@ void Random_Board(int puzzle[WIDTH][HEIGHT])
     }
 }
 
-void get_user_input(int puzzle[WIDTH][HEIGHT])
+void get_user_input(size_t puzzle[WIDTH][HEIGHT])
 {
-    std::vector<int> input;
-    int tile;
+    std::vector<size_t> input;
+    size_t tile;
     std::cout << "Enter your puzzle: "<<std::endl;
-    unsigned int i = 0;
+    size_t i = 0;
     while( i != 9)
     {
         std::cout<<print_as_color<ansi_color_code::blue>("tile[")<<print_as_color<ansi_color_code::bright_white>(i)<<print_as_color<ansi_color_code::bright_blue>("]:")<<std::endl;
@@ -95,12 +95,12 @@ void get_user_input(int puzzle[WIDTH][HEIGHT])
         input.push_back(tile);
         i++;
     }
-    unsigned int n = 0;
+    size_t n = 0;
     while( n != 9)
     {
-        for(unsigned int i = 0 ; i<3 ; i++)
+        for(size_t i = 0 ; i<3 ; i++)
         {
-            for(unsigned int j = 0 ; j<3 ; j++)
+            for(size_t j = 0 ; j<3 ; j++)
             {
                 puzzle[i][j] = input[n];
                 n++;
@@ -110,21 +110,21 @@ void get_user_input(int puzzle[WIDTH][HEIGHT])
     }
 }
 
-int getInvCount(int arr[]) 
+size_t getInvCount(size_t arr[]) 
 { 
-    int inv_count = 0; 
-    for (int i = 0; i < 9 - 1; i++) 
-        for (int j = i+1; j < 9; j++) 
+    size_t inv_count = 0; 
+    for (size_t i = 0; i < 9 - 1; i++) 
+        for (size_t j = i+1; j < 9; j++) 
              // Value 0 is used for empty space 
              if (arr[j] && arr[i] &&  arr[i] > arr[j]) 
                   inv_count++; 
     return inv_count; 
 }
 
-bool isSolvable(int puzzle[3][3]) 
+bool isSolvable(size_t puzzle[3][3]) 
 { 
     // Count inversions in given 8 puzzle 
-    int invCount = getInvCount((int *)puzzle); 
+    size_t invCount = getInvCount((size_t *)puzzle); 
   
     // return true if inversion count is even. 
     return (invCount%2 == 0); 
@@ -150,7 +150,7 @@ bool BFS(const myState &goal,std::queue<myState> &agenda, std::set<myState> &clo
             std::vector<myState> children;
             children=s.expand();
             closed.insert(s);
-            for (unsigned int i=0;i<children.size();i++)
+            for (size_t i=0;i<children.size();i++)
                 agenda.push(children.at(i));
         }
         
@@ -180,7 +180,7 @@ bool DFS(const myState &goal,std::stack<myState> &agenda, std::set<myState> &clo
             std::vector<myState> children;
             children=s.expand();
             closed.insert(s);
-            for (unsigned int i=0;i<children.size();i++)
+            for (size_t i=0;i<children.size();i++)
                 agenda.push(children.at(i));
         }
     }
@@ -193,13 +193,13 @@ bool DFS(const myState &goal,std::stack<myState> &agenda, std::set<myState> &clo
 
 int main()
 {
-    std::vector<int>startingboard;
-    int startingBoard[3][3] ;
-    int command;
-    //int goalX;
-    //int goalY;
-    int freeX;
-    int freeY;
+    std::vector<size_t>startingboard;
+    size_t startingBoard[3][3] ;
+    size_t command;
+    //size_t goalX;
+    //size_t goalY;
+    size_t freeX;
+    size_t freeY;
 
     std::cout<< print_as_color<ansi_color_code::bright_blue>("Choose one of the following:")<<std::endl;
     std::cout<< print_as_color<ansi_color_code::bright_blue>("to solve a random puzzle enter: '1'")<<std::endl;
@@ -222,7 +222,7 @@ int main()
 
     
     
-    int goalBoard[3][3] = 
+    size_t goalBoard[3][3] = 
     {
     {1, 2, 3} ,   /*  initializers for row indexed by 0 */
     {4, 5, 6} ,   /*  initializers for row indexed by 1 */

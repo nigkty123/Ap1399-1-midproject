@@ -9,13 +9,13 @@ State::State()
 
 }
 
-State::State(int row, int col, int puzzle[][WIDTH])
+State::State(size_t row, size_t col, size_t puzzle[][WIDTH])
 {
     this->freeX = row;
     this->freeY = col;
 
-    for (int i=0;i<WIDTH;i++)
-        for (int j=0;j<HEIGHT;j++)
+    for (size_t i=0;i<WIDTH;i++)
+        for (size_t j=0;j<HEIGHT;j++)
             this->puzzle[i][j]=puzzle[i][j];
 }
 
@@ -31,8 +31,8 @@ State State::operator= (State o)
 
     path = o.path;
 
-    for (int i=0;i<WIDTH;i++)
-        for (int j=0;j<HEIGHT;j++)
+    for (size_t i=0;i<WIDTH;i++)
+        for (size_t j=0;j<HEIGHT;j++)
             puzzle[i][j]=o.puzzle[i][j];
 
     return *this;
@@ -40,8 +40,8 @@ State State::operator= (State o)
 
 bool State::operator==(const State& s) const 
 {
-    for (int i=0;i<WIDTH;i++)
-        for (int j=0;j<HEIGHT;j++)
+    for (size_t i=0;i<WIDTH;i++)
+        for (size_t j=0;j<HEIGHT;j++)
                 {
                     if (puzzle[i][j] != s.puzzle[i][j])
                         return false;
@@ -51,24 +51,24 @@ bool State::operator==(const State& s) const
 }
 
 
-void State::setFree(int x, int y)
+void State::setFree(size_t x, size_t y)
 {
     freeX = x;
     freeY = y;
 }
 
-int State::getFreeY()
+size_t State::getFreeY()
 {
     return freeY;
 }
 
-int State::getFreeX()
+size_t State::getFreeX()
 {
     return freeX;
 }
 
 
-void State::swapTileValues(int row, int col, State &n)
+void State::swapTileValues(size_t row, size_t col, State &n)
 {
     n.puzzle[n.getFreeX()][n.getFreeY()] = n.puzzle[row][col];
     n.puzzle[row][col] = 0;
@@ -128,10 +128,10 @@ std::string State::toString () const
 {
     std::stringstream ot;
 
-    for (int i = 0; i < WIDTH; i++)
+    for (size_t i = 0; i < WIDTH; i++)
     {
         ot << "\n";
-        for (int j = 0; j < HEIGHT; j++)
+        for (size_t j = 0; j < HEIGHT; j++)
             if (puzzle[i][j] != 0)
                 ot<<puzzle[i][j]<< "  ";
             else
@@ -175,7 +175,7 @@ bool operator< (const State& a, const State& o)
     return (a.toString() < o.toString());
 }
 
-void State::Show(int x, int y, int puzzle[][WIDTH])
+void State::Show(size_t x, size_t y, size_t puzzle[][WIDTH])
 {
     std::string s;
     State child(x,y,puzzle);
