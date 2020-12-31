@@ -209,3 +209,4 @@ void State::Show(size_t x, size_t y, size_t puzzle[][WIDTH])
         
     }
 }
+

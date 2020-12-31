@@ -33,6 +33,7 @@ class State
     friend bool operator< (const State& a,const State& o);//return true if State a is smaller
     size_t noOfMoves() const ;
     void Show( size_t x, size_t y, size_t puzzle[][WIDTH]);
+    
     private:
     
     void swapTileValues(size_t row, size_t col, State &n);//Changes the value of the previous free tile
