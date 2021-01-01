@@ -88,7 +88,7 @@ int main()
     size_t startingBoard[3][3] ;
     size_t goalBoard[3][3] ;
     size_t command;
-    size_t commandgoal;
+    size_t commandgoal = 0;
     size_t goalX;
     size_t goalY;
     size_t freeX;
@@ -124,11 +124,12 @@ int main()
     std::cout<<print_as_color<ansi_color_code::bright_green>("Starting State: \n");
     std::cout<<print_as_color<ansi_color_code::cyan>(initial.toString())<<"\n";
 
-
+    if(isSolvable(startingBoard)==true )
+    {
     std::cout<< print_as_color<ansi_color_code::bright_blue>("to choose your own goal enter: '1'")<<std::endl;
     std::cout<< print_as_color<ansi_color_code::bright_blue>("to solve the puzzle completely enter: '0'")<<std::endl;
     std::cin>>commandgoal;
-
+    }
     get_user_input_goal(goalBoard , commandgoal);
     goalX =findFreeX(goalBoard);
     goalY = findFreeY(goalBoard);

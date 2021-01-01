@@ -177,7 +177,7 @@ bool operator< (const State& a, const State& o)
 
 void State::Show(size_t x, size_t y, size_t puzzle[][WIDTH])
 {
-    std::string s;
+
     State child(x,y,puzzle);
     for( size_t i=0 ; i< path.size(); i++)
     {
